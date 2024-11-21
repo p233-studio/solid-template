@@ -37,12 +37,11 @@
     "*.{ts,tsx}": [
       "eslint --fix --max-warnings 0"
     ],
+    "*.scss": [
+      "stylelint --fix"
+    ],
     "!(package*).json": [
       "prettier --write"
-    ],
-    "*.scss": [
-      "prettier --write",
-      "stylelint --fix"
     ]
   }
 }
