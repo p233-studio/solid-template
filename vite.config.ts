@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import solid from "vite-plugin-solid";
-import autoprefixer from "autoprefixer";
+import solidSvg from "vite-plugin-solid-svg";
+import cssnano from "cssnano";
 
 let modulesConfig = {
   generateScopedName: "[local]-[hash:base64:4]"
@@ -24,21 +25,25 @@ if (process.env.IS_PROD) {
 }
 
 export default defineConfig({
-  plugins: [solid()],
-  vite: {
-    css: {
-      modules: modulesConfig,
-      postcss: {
-        plugins: [autoprefixer()]
-      },
-      preprocessorOptions: {
-        scss: {
-          additionalData: `@use "~/styles/_common" as *;`
-        }
-      }
+  server: {
+    port: 3000
+  },
+  plugins: [solid(), solidSvg({ svgo: {} })],
+  css: {
+    modules: modulesConfig,
+    postcss: {
+      plugins: [
+        cssnano({ preset: ["cssnano-preset-advanced", { discardUnused: { fontFace: false } }] })
+      ]
     },
-    resolve: {
-      alias: [{ find: "~", replacement: "/src/" }]
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler",
+        additionalData: `@use "~/styles/_common" as *;`
+      }
     }
+  },
+  resolve: {
+    alias: [{ find: "~", replacement: "/src/" }]
   }
 });
