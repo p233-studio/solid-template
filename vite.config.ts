@@ -7,7 +7,7 @@ let modulesConfig = {
   generateScopedName: "[local]-[hash:base64:4]"
 };
 
-if (process.env.IS_PROD) {
+if (process.env.NODE_ENV === "production") {
   const fileSet = {};
   const hashSet = {};
   modulesConfig = {
